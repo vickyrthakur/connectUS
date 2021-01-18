@@ -1,6 +1,8 @@
 package com.walmart.connect.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walmart.connect.converter.SlackMessageToCandidate;
+import com.walmart.connect.model.Candidate;
 import com.walmart.connect.response.Attachment;
 import com.walmart.connect.response.SlackResponse;
 import org.slf4j.Logger;
@@ -22,6 +24,9 @@ public class SlackController {
 
     @Autowired
     ObjectMapper mapper;
+
+    @Autowired
+    SlackMessageToCandidate slackMessageToCandidate;
 
 
     @RequestMapping(value = "/slack/slash",
@@ -63,7 +68,7 @@ public class SlackController {
                                                @RequestParam("text") String text,
                                                @RequestParam("response_url") String responseUrl) {
         SlackResponse response = new SlackResponse();
-        response.setText(text);
+        response.setText("The Tech Pannel Information is");
         response.setResponseType("in_channel");
 
         Attachment attachment = new Attachment();
@@ -89,9 +94,38 @@ public class SlackController {
 
         response.attachments.add(attachment);
 
+
+        // some service API , i/p -> candiate-> InterviewerAvailabilityResponse
+
         return response;
     }
 
+    @RequestMapping(value = "/slack/test",
+
+            method = RequestMethod.GET)
+    public SlackResponse onTest( ) {
+       Candidate candidate= slackMessageToCandidate.convert("Name: vicky thakur\n" +
+                "             EmailId:  vthakurvicky@gmail.com\n" +
+                "             Skills:  java,spring-boot, SQL, mongo\n" +
+                "             Role:    IN3\n" +
+                "             Time_Slot: 2021-01-20 14:00 to 2021-01-20 16:00, 2021-01-21 14:00 to 2021-01-21 16:00, 2021-01-22 14:00 to 2021-01-22 16:00\n" +
+                "             Team: GBS_FINTECH\n" +
+                "             Location : BANGALORE\n" +
+                "             Round:  TECH_1\n" +
+                "             Experience:  2.6");
 
 
+        SlackResponse response = new SlackResponse();
+        response.setText("This is the response text");
+        response.setResponseType("in_channel");
+
+        Attachment attachment = new Attachment();
+        attachment.setText(candidate.toString());
+        attachment.setColor("#0000ff");
+
+        response.attachments.add(attachment);
+
+        return response;
+
+    }
 }

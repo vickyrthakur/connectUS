@@ -1,7 +1,7 @@
 package com.walmart.connect.model;
 
 public enum Location {
-    US("us"), IN_BANGALORE("bangalore"), IN_CHENNAI("chennai");
+    US("us"), BANGALORE("bangalore"), CHENNAI("chennai");
 
     Location(String name) {
         this.name = name;
