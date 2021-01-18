@@ -5,9 +5,12 @@ import com.walmart.connect.model.*;
 import javafx.util.Pair;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class SlackMessageToCandidate {
@@ -21,7 +24,7 @@ public static Candidate convert(String inputs){
              EmailId:  vthakurvicky@gmail.com
              Skills:  java,spring-boot, SQL, mongo
              Role:    IN3
-             Time_Slot: 20-01-2021:14:00 to 20-01-2021:16:00,  21-01-2021:14:00 to 20-01-2021:16:00, 22-01-2021:14:00 to 20-01-2021:16:00
+             Time_Slot: c to 20-01-2021:16:00,  21-01-2021:14:00 to 20-01-2021:16:00, 22-01-2021:14:00 to 20-01-2021:16:00
              Team: GBS_FINTECH
              Location : BANGALORE
              Round:  TECH_1
@@ -43,8 +46,14 @@ String dataLines[]=inputs.split("\\r?\\n");
            dataSet=inp.split(":");
        }
 
+        String key;
+        if(inp.contains(Constants.TIME_SLOT)){
+            key=Constants.TIME_SLOT;
 
-        String key=dataSet[0].trim();
+        }else{
+            key=dataSet[0].trim();
+        }
+
         String values =dataSet[1].trim();
 
         if(Constants.NAME.equalsIgnoreCase(key)){
@@ -72,21 +81,22 @@ String dataLines[]=inputs.split("\\r?\\n");
 
             ArrayList availbaleTime= new ArrayList();
             String timeSots[]=values.split(",");
+
+
             for(String time:timeSots){
 
                 String timePair[]=time.split("to");
-                Pair<LocalDateTime, LocalDateTime> pairSlots = null;
                 try {
-                     pairSlots = new Pair(LocalDateTime.parse(timePair[0]), LocalDateTime.parse(timePair[0]));
+                    Pair<Date, Date>  pairSlots = new Pair(new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[0]),
+                             new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[1]));
+                    if(null!=pairSlots){
+                        availbaleTime.add(pairSlots);
+
+                    }
                 }catch (Exception e){
 
 
                 }
-                if(null!=pairSlots){
-                    availbaleTime.add(pairSlots);
-
-                }
-
             }
 
 

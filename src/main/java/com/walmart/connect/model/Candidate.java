@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Candidate {
     private String name;
@@ -25,4 +24,18 @@ public class Candidate {
     private Team team;
     private Round round;
 
+    @Override
+    public String toString() {
+        return "Candidate{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", skills=" + skills +
+                ", availableTimeSlot=" + availableTimeSlot +
+                ", location=" + location +
+                ", experience=" + experience +
+                ", team=" + team +
+                ", round=" + round +
+                '}';
+    }
 }
