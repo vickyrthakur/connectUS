@@ -1,6 +1,8 @@
 package com.walmart.connect.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walmart.connect.converter.SlackMessageToCandidate;
+import com.walmart.connect.model.Candidate;
 import com.walmart.connect.response.Attachment;
 import com.walmart.connect.response.SlackResponse;
 import org.slf4j.Logger;
@@ -24,7 +26,8 @@ public class SlackController {
     ObjectMapper mapper;
 
     @Autowired
-   // SlackMessageToCandidate slackMessageToCandidate;
+    SlackMessageToCandidate slackMessageToCandidate;
+
 
     @RequestMapping(value = "/slack/slash",
             method = RequestMethod.POST,
@@ -94,13 +97,10 @@ public class SlackController {
         return response;
     }
 
-   /* @RequestMapping(value = "/slack/test",
+    @RequestMapping(value = "/slack/test",
+
             method = RequestMethod.GET)
     public SlackResponse onTest( ) {
-
-
-
-
        Candidate candidate= slackMessageToCandidate.convert("Name: vicky thakur\n" +
                 "             EmailId:  vthakurvicky@gmail.com\n" +
                 "             Skills:  java,spring-boot, SQL, mongo\n" +
@@ -123,16 +123,6 @@ public class SlackController {
         response.attachments.add(attachment);
 
         return response;
-    }*/
 
-
-
-
-
-
-
-
-
-
-
+    }
 }
