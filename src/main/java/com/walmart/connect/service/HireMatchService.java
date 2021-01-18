@@ -15,10 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class HireMatchService implements MatchService {
@@ -26,15 +23,18 @@ public class HireMatchService implements MatchService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Override
-    public List<InterviewerAvailabilityResponse> find(Requirement requirement) {
+    @Autowired
+    private CalendarService calendarService;
 
-        String getPanelUrl = "https://host/panel/location/{locationId}/role/{roleId}/department/{departmentId}/round/{roundId}";
+    @Override
+    public List<InterviewerAvailabilityResponse> findPanel(Requirement requirement) {
+
+        String getPanelUrl = "http://127.0.0.1:5000/panel/location/{locationId}/role/{roleId}/department/{departmentId}/round/{roundId}";
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("location", requirement.getLocation().getName());
-        urlParams.put("role", requirement.getRole().name());
-        urlParams.put("department", requirement.getDepartment().name());
-        urlParams.put("round", requirement.getRound().name());
+        urlParams.put("locationId", requirement.getLocation().getName());
+        urlParams.put("roleId", requirement.getRole().name());
+        urlParams.put("departmentId", requirement.getDepartment().name());
+        urlParams.put("roundId", requirement.getRound().name());
         UriComponentsBuilder panelUrlBuilder = UriComponentsBuilder.fromUriString(getPanelUrl)
                 .queryParam("skills", String.join(",", requirement.getSkills()));
 
@@ -45,8 +45,8 @@ public class HireMatchService implements MatchService {
 
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
-            for (Pair<LocalDateTime, LocalDateTime> timeslot: requirement.getTimeSlots()) {
-                if (isTimeSlotAvailable(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
+            for (Pair<Date, Date> timeslot: requirement.getTimeSlots()) {
+                if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
                     interviewerAvailabilityResponses.add(InterviewerAvailabilityResponse.builder()
                             .name(interviewer.getName())
                             .email(interviewer.getEmail())

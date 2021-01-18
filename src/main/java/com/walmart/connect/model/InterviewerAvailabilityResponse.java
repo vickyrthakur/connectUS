@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -16,7 +16,7 @@ public class InterviewerAvailabilityResponse {
 
     private String name;
     private String email;
-    private Pair<LocalDateTime, LocalDateTime> availableTimeSlot;
+    private Pair<Date, Date> availableTimeSlot;
     private InterviewerStatus status;
     private Department department;
     private Role role;

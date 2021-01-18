@@ -1,6 +1,7 @@
 package com.walmart.connect.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +17,7 @@ public class Interviewer {
     private String name;
     private String email;
     private Role role;
-    private List<String> skills;
+    private String skills;
 //    private Double experience;
     private Location location;
     private Department department;

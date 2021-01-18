@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MatchService {
 
-    List<InterviewerAvailabilityResponse> find(Requirement requirement);
+    List<InterviewerAvailabilityResponse> findPanel(Requirement requirement);
 }
