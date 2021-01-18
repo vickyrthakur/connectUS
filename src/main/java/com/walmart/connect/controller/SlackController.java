@@ -94,6 +94,9 @@ public class SlackController {
 
         response.attachments.add(attachment);
 
+
+        // some service API , i/p -> candiate-> InterviewerAvailabilityResponse
+
         return response;
     }
 
