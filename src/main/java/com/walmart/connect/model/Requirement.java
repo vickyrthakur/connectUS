@@ -18,7 +18,7 @@ public class Requirement {
     private List<String> skills;
     private Role role;
     private List<Pair<LocalDateTime, LocalDateTime>> timeSlots;
-    private Team team;
+    private Department department;
     private Location location;
     private Round round;
     private Double experience;

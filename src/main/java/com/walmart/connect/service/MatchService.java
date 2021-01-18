@@ -1,9 +1,9 @@
 package com.walmart.connect.service;
 
-import com.walmart.connect.model.Interviewer;
 import com.walmart.connect.model.InterviewerAvailabilityResponse;
 import com.walmart.connect.model.Requirement;
-import javaslang.collection.List;
+
+import java.util.List;
 
 public interface MatchService {
 

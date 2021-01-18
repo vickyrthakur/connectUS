@@ -1,5 +1,5 @@
 package com.walmart.connect.model;
 
-public enum Team {
+public enum Department {
     GBS_FINTECH;
 }

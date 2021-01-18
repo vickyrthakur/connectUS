@@ -17,7 +17,7 @@ public class Interviewer {
     private String email;
     private Role role;
     private List<String> skills;
-    private Double experience;
+//    private Double experience;
     private Location location;
-    private Team team;
+    private Department department;
 }
