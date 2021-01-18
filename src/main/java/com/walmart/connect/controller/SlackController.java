@@ -23,6 +23,8 @@ public class SlackController {
     @Autowired
     ObjectMapper mapper;
 
+    @Autowired
+   // SlackMessageToCandidate slackMessageToCandidate;
 
     @RequestMapping(value = "/slack/slash",
             method = RequestMethod.POST,
@@ -63,7 +65,7 @@ public class SlackController {
                                                @RequestParam("text") String text,
                                                @RequestParam("response_url") String responseUrl) {
         SlackResponse response = new SlackResponse();
-        response.setText(text);
+        response.setText("The Tech Pannel Information is");
         response.setResponseType("in_channel");
 
         Attachment attachment = new Attachment();
@@ -91,6 +93,45 @@ public class SlackController {
 
         return response;
     }
+
+   /* @RequestMapping(value = "/slack/test",
+            method = RequestMethod.GET)
+    public SlackResponse onTest( ) {
+
+
+
+
+       Candidate candidate= slackMessageToCandidate.convert("Name: vicky thakur\n" +
+                "             EmailId:  vthakurvicky@gmail.com\n" +
+                "             Skills:  java,spring-boot, SQL, mongo\n" +
+                "             Role:    IN3\n" +
+                "             Time_Slot: 20-01-2021:14:00 to 20-01-2021:16:00,  21-01-2021:14:00 to 20-01-2021:16:00, 22-01-2021:14:00 to 20-01-2021:16:00\n" +
+                "             Team: GBS_FINTECH\n" +
+                "             Location : BANGALORE\n" +
+                "             Round:  TECH_1\n" +
+                "             Experience:  2.6");
+
+
+        SlackResponse response = new SlackResponse();
+        response.setText("This is the response text");
+        response.setResponseType("in_channel");
+
+        Attachment attachment = new Attachment();
+        attachment.setText(candidate.toString());
+        attachment.setColor("#0000ff");
+
+        response.attachments.add(attachment);
+
+        return response;
+    }*/
+
+
+
+
+
+
+
+
 
 
 
