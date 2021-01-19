@@ -68,9 +68,9 @@ public class CalendarService {
             GoogleCredential credential = GoogleCredential.fromStream(
                     new FileInputStream(this.getClass().getClassLoader().getResource("credentials.json").getPath()))
                     .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
-            System.out.println(credential.toString());
+         //   System.out.println(credential.toString());
             credential.refreshToken();
-            System.out.println(credential.getAccessToken());
+         //   System.out.println(credential.getAccessToken());
             return credential;
             //getFreeBusyCalendarInfo(credential);
         } catch (FileNotFoundException e) {
