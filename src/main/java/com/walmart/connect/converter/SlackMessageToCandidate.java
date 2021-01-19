@@ -85,8 +85,8 @@ String dataLines[]=inputs.split("\\r?\\n");
 
                 String timePair[]=time.split("to");
                 try {
-                    TimePair pairSlots = new TimePair(new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[0]),
-                             new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[1]));
+                    TimePair pairSlots = new TimePair(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timePair[0].trim()),
+                             new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timePair[1].trim()));
                     if(null!=pairSlots){
                         availbaleTime.add(pairSlots);
 

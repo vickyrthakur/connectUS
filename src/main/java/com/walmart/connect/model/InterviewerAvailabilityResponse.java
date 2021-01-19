@@ -20,12 +20,12 @@ public class InterviewerAvailabilityResponse {
     @Override
     public String toString() {
         return
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", availableTimeSlot=" + availableTimeSlot +
-                ", status=" + status +
-                ", department=" + department +
-                ", role=" + role
+                "name='" + name + '\'' +   "\n"+
+                ", email='" + email + '\'' +   "\n"+
+                ", availableTimeSlot=" + availableTimeSlot +   "\n"+
+                ", status=" + status +   "\n"+
+                ", department=" + department +   "\n"+
+                ", role=" + role +  "\n"
                 ;
     }
 }

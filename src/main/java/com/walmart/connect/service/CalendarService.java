@@ -65,7 +65,7 @@ public class CalendarService {
     public GoogleCredential getCredentialsToSendInvite() {
         try {
             GoogleCredential credential = GoogleCredential.fromStream(
-            Thread.currentThread().getContextClassLoader().getResourceAsStream("credentials-free-busy.json"))
+            Thread.currentThread().getContextClassLoader().getResourceAsStream("credentials.json"))
                     .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
          //   System.out.println(credential.toString());
             credential.refreshToken();

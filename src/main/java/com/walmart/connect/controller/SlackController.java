@@ -62,8 +62,10 @@ public class SlackController {
         response.setText("Status for :" + text + " is:");
         response.setResponseType("in_channel");
 
+        InterviewerStatus status= matchService.getInterviewerAvailabilityStatus(text);
+
         Attachment attachment = new Attachment();
-        attachment.setText("status response");
+        attachment.setText("status response "+status.toString());
 
         attachment.setColor("#0000ff");
 
@@ -87,7 +89,7 @@ public class SlackController {
                                                          @RequestParam("response_url") String responseUrl) {
         SlackResponse response = new SlackResponse();
         Candidate candidate = slackMessageToCandidate.convert(text);
-        response.setText("The Tech Pannel Information for " + candidate.getName() + "is :");
+        response.setText("The Tech Pannel Information for " + candidate.getName() + " is :");
         response.setResponseType("in_channel");
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = matchService.findPanel(candidate);
 
@@ -97,6 +99,7 @@ public class SlackController {
         for (InterviewerAvailabilityResponse resp : interviewerAvailabilityResponses) {
             output.append(resp.toString());
             output.append("\n");
+            break;
         }
         if(interviewerAvailabilityResponses.isEmpty()){
 
@@ -181,7 +184,7 @@ public class SlackController {
                 "             Round:  TECH_1 \n" +
                 "             Experience:  2.6");
 
-      
+
         SlackResponse response = new SlackResponse();
         response.setText("This is the response text");
         response.setResponseType("in_channel");

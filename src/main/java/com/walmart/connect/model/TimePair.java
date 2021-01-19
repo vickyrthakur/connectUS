@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
+
 public class TimePair {
 
 
@@ -28,4 +30,13 @@ public class TimePair {
 
     public Date getKey()   { return key; }
     public Date getValue() { return value; }
+
+    @Override
+    public String toString() {
+        return
+                "key=" + key +
+                        "\n"+
+                ", value=" + value
+                ;
+    }
 }
