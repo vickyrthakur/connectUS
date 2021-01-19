@@ -3,7 +3,9 @@ package com.walmart.connect.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javafx.util.Pair;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
 public class Candidate {
     private String name;
     private String email;
@@ -21,6 +24,7 @@ public class Candidate {
     private Double experience;
     private Department department;
     private Round round;
+
 
     @Override
     public String toString() {

@@ -89,19 +89,8 @@ public class SlackController {
         Candidate candidate = slackMessageToCandidate.convert(text);
         response.setText("The Tech Pannel Information for " + candidate.getName() + "is :");
         response.setResponseType("in_channel");
-        List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = matchService.findPanel(
-                Requirement.builder()
-                        .department(candidate.getDepartment())
-                        .email(candidate.getEmail())
-                        .experience(candidate.getExperience())
-                        .location(candidate.getLocation())
-                        .name(candidate.getName())
-                        .skills(candidate.getSkills())
-                        .role(candidate.getRole())
-                        .round(candidate.getRound())
-                        .timeSlots(candidate.getAvailableTimeSlot())
-                        .build()
-        );
+        List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = matchService.findPanel(candidate);
+
 
         StringBuilder output = new StringBuilder();
         output.append("Tech Panel Information : ");
@@ -169,20 +158,7 @@ public class SlackController {
 
         slackService.postMessage(msg, webhook);
 
-
-        return matchService.findPanel(
-                Requirement.builder()
-                        .department(Department.GBS_FINTECH)
-                        .email("shivam@gmail.com")
-                        .experience(1.2)
-                        .location(Location.BANGALORE)
-                        .name("shivam")
-                        .skills(new ArrayList<String>(){{add("java,spring");}})
-                        .role(Role.IN3)
-                        .round(Round.TECH_1)
-                        .timeSlots(new ArrayList<Pair<Date, Date>>(){{add(new Pair<>(new Date(), DateUtils.addHours(new Date(), 1)));}})
-                        .build()
-        );
+        return matchService.findPanel(candidate);
 
     }
 }

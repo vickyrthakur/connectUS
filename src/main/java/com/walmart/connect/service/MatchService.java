@@ -10,5 +10,5 @@ public interface MatchService {
 
     List<InterviewerAvailabilityResponse> findPanel(Candidate requirement);
 
-    InterviewerAvailabilityResponse selectPanel(List<InterviewerAvailabilityResponse> panel);
+  //  InterviewerAvailabilityResponse selectPanel(List<InterviewerAvailabilityResponse> panel);
 }
