@@ -34,9 +34,9 @@ public class TimePair {
     @Override
     public String toString() {
         return
-                "key=" + key +
+                "from " + key +
                         "\n"+
-                ", value=" + value
+                ", to " + value
                 ;
     }
 }
