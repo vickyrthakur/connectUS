@@ -19,10 +19,10 @@ public static Candidate convert(String inputs){
 
 /*
            Name: vicky thakur
-             EmailId:  vthakurvicky@gmail.com
+             EmailId:  vickythakur6430@gmail.com
              Skills:  java,spring-boot, SQL, mongo
              Role:    IN3
-             Time_Slot: c to 20-01-2021:16:00,  21-01-2021:14:00 to 20-01-2021:16:00, 22-01-2021:14:00 to 20-01-2021:16:00
+             Time_Slot:  21-02-2021:14:00 to 20-02-2021:16:00, 22-02-2021:14:00 to 20-02-2021:16:00
              Team: GBS_FINTECH
              Location : BANGALORE
              Round:  TECH_1

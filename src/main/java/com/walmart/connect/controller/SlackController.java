@@ -59,11 +59,12 @@ public class SlackController {
                                                @RequestParam("text") String text,
                                                @RequestParam("response_url") String responseUrl) {
         SlackResponse response = new SlackResponse();
-        response.setText("Status for :" + text + "is:");
+        response.setText("Status for :" + text + " is:");
         response.setResponseType("in_channel");
 
         Attachment attachment = new Attachment();
         attachment.setText("status response");
+
         attachment.setColor("#0000ff");
 
         response.attachments.add(attachment);
@@ -96,6 +97,10 @@ public class SlackController {
         for (InterviewerAvailabilityResponse resp : interviewerAvailabilityResponses) {
             output.append(resp.toString());
             output.append("\n");
+        }
+        if(interviewerAvailabilityResponses.isEmpty()){
+
+            output.append("No Panel Available");
         }
         Attachment attachment = new Attachment();
         attachment.setText(output.toString());
@@ -166,14 +171,14 @@ public class SlackController {
 
             method = RequestMethod.GET)
     public List<InterviewerAvailabilityResponse> onTest() throws JSONException {
-        Candidate candidate = slackMessageToCandidate.convert("Name: vicky thakur\n" +
-                "             EmailId:  vthakurvicky@gmail.com\n" +
-                "             Skills:  java,spring-boot, SQL, mongo\n" +
-                "             Role:    IN3\n" +
-                "             Time_Slot: 2021-02-20 14:00 to 2021-02-20 16:00, 2021-02-21 14:00 to 2021-02-21 16:00, 2021-02-22 14:00 to 2021-02-22 16:00\n" +
-                "             Team: GBS_FINTECH\n" +
-                "             Location : BANGALORE\n" +
-                "             Round:  TECH_1\n" +
+        Candidate candidate = slackMessageToCandidate.convert("Name: vicky thakur \n" +
+                "             EmailId:  vickythakur6430@gmail.com \n" +
+                "             Skills:  java,spring-boot, SQL, mongo \n" +
+                "             Role:    IN3 \n" +
+                "             Time_Slot:  21-02-2021:14:00 to 20-02-2021:16:00, 22-02-2021:14:00 to 20-02-2021:16:00 \n" +
+                "             Team: GBS_FINTECH \n" +
+                "             Location : BANGALORE \n" +
+                "             Round:  TECH_1 \n" +
                 "             Experience:  2.6");
 
 
