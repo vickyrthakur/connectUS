@@ -9,6 +9,7 @@ import com.google.api.services.calendar.model.*;
 import com.walmart.connect.model.CalendarEvent;
 import com.walmart.connect.model.Candidate;
 import javaslang.control.Try;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
@@ -25,7 +26,7 @@ public class CalendarService {
     @SuppressWarnings("deprecation")
     public GoogleCredential getCredentials() {
         GoogleCredential googleCredential = Try.of(() -> GoogleCredential.fromStream(
-                new FileInputStream(ClassLoader.getSystemResource("credentials-free-busy.json").getPath()))
+                CalendarService.class.getResourceAsStream("credentials-free-busy.json"))
                 .createScoped(Collections.singleton(CalendarScopes.CALENDAR)))
                 .getOrElseThrow((ex) -> new RuntimeException("Cannot get google credentials", ex));
         Try.of(googleCredential::refreshToken).getOrElseThrow((ex) -> new RuntimeException("Cannot refresh token", ex));
@@ -66,7 +67,7 @@ public class CalendarService {
     public GoogleCredential getCredentialsToSendInvite() {
         try {
             GoogleCredential credential = GoogleCredential.fromStream(
-                    new FileInputStream(ClassLoader.getSystemResource("credentials-free-busy.json").getPath()))
+                    CalendarService.class.getResourceAsStream("credentials-free-busy.json"))
                     .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
          //   System.out.println(credential.toString());
             credential.refreshToken();
@@ -80,6 +81,7 @@ public class CalendarService {
         }
         return null;
     }
+
 
     public CalendarEvent createEvent(String interviewerEmailId, Date from, Date to, Candidate candidate) {
         GoogleCredential credentials = getCredentialsToSendInvite();
