@@ -26,7 +26,7 @@ public class CalendarService {
     @SuppressWarnings("deprecation")
     public GoogleCredential getCredentials() {
         GoogleCredential googleCredential = Try.of(() -> GoogleCredential.fromStream(
-                CalendarService.class.getResourceAsStream("credentials-free-busy.json"))
+                Thread.currentThread().getContextClassLoader().getResourceAsStream("credentials-free-busy.json"))
                 .createScoped(Collections.singleton(CalendarScopes.CALENDAR)))
                 .getOrElseThrow((ex) -> new RuntimeException("Cannot get google credentials", ex));
         Try.of(googleCredential::refreshToken).getOrElseThrow((ex) -> new RuntimeException("Cannot refresh token", ex));
@@ -67,7 +67,7 @@ public class CalendarService {
     public GoogleCredential getCredentialsToSendInvite() {
         try {
             GoogleCredential credential = GoogleCredential.fromStream(
-                    CalendarService.class.getResourceAsStream("credentials-free-busy.json"))
+            Thread.currentThread().getContextClassLoader().getResourceAsStream("credentials-free-busy.json"))
                     .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
          //   System.out.println(credential.toString());
             credential.refreshToken();
