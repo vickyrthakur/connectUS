@@ -30,7 +30,7 @@ public class CalenderScheduler {
     String webhook;
 
     @Scheduled(cron = "${calender_scheduler_interval}")
-    public void checkInterviewerCalender() throws JSONException {
+    public void checkInterviewerCalender() {
         log.info("Calender status updated");
         for (Map.Entry<String, Tuple3<CalendarEvent, InterviewerStatus, Candidate>> calenderStatusEntry :
                 HireMatchService.calenderStatusMap.entrySet()) {
@@ -41,7 +41,11 @@ public class CalenderScheduler {
                     String responseMessage = String.join("","Candidate: ", calenderStatusEntry.getValue()._3.getName(),
                             " Interview Request is accepted by ", calenderStatusEntry.getKey(), ".", " Meeting invite Id is: ",
                             calenderStatusEntry.getValue()._1.getMeetingLink());
-                    slackService.postMessage(responseMessage, webhook);
+                    try {
+                        slackService.postMessage(responseMessage, webhook);
+                    } catch (JSONException ex) {
+                        log.error("Failed to post interview schedule to slack");
+                    }
                 }
             }
         }
