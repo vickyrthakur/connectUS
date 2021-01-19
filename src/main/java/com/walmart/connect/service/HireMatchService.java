@@ -1,10 +1,7 @@
 package com.walmart.connect.service;
 
 
-import com.walmart.connect.model.Interviewer;
-import com.walmart.connect.model.InterviewerAvailabilityResponse;
-import com.walmart.connect.model.InterviewerStatus;
-import com.walmart.connect.model.Requirement;
+import com.walmart.connect.model.*;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -27,7 +24,7 @@ public class HireMatchService implements MatchService {
     private CalendarService calendarService;
 
     @Override
-    public List<InterviewerAvailabilityResponse> findPanel(Requirement requirement) {
+    public List<InterviewerAvailabilityResponse> findPanel(Candidate requirement) {
 
         String getPanelUrl = "https://connectuspython.herokuapp.com/panel/location/{locationId}/role/{roleId}/department/{departmentId}/round/{roundId}";
         Map<String, String> urlParams = new HashMap<>();
@@ -45,7 +42,7 @@ public class HireMatchService implements MatchService {
 
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
-            for (Pair<Date, Date> timeslot: requirement.getTimeSlots()) {
+            for (Pair<Date, Date> timeslot: requirement.getAvailableTimeSlot()) {
                 if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
                     interviewerAvailabilityResponses.add(InterviewerAvailabilityResponse.builder()
                             .name(interviewer.getName())
