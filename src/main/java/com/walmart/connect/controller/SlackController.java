@@ -170,7 +170,7 @@ public class SlackController {
                 "             EmailId:  vthakurvicky@gmail.com\n" +
                 "             Skills:  java,spring-boot, SQL, mongo\n" +
                 "             Role:    IN3\n" +
-                "             Time_Slot: 2021-01-20 14:00 to 2021-01-20 16:00, 2021-01-21 14:00 to 2021-01-21 16:00, 2021-01-22 14:00 to 2021-01-22 16:00\n" +
+                "             Time_Slot: 2021-02-20 14:00 to 2021-02-20 16:00, 2021-02-21 14:00 to 2021-02-21 16:00, 2021-02-22 14:00 to 2021-02-22 16:00\n" +
                 "             Team: GBS_FINTECH\n" +
                 "             Location : BANGALORE\n" +
                 "             Round:  TECH_1\n" +
