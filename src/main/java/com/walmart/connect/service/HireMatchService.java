@@ -13,6 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
 
+import static com.walmart.connect.model.InterviewerStatus.WAITING;
+
 @Service
 public class HireMatchService implements MatchService {
 
@@ -42,17 +44,26 @@ public class HireMatchService implements MatchService {
         List<Interviewer> matchingInterviewers = matchingInterviewerResponse.getBody();
 
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
+        List<InterviewerAvailabilityResponse> allResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
             for (TimePair timeslot: candidate.getAvailableTimeSlot()) {
+                allResponses.add(InterviewerAvailabilityResponse.builder()
+                        .name(interviewer.getName())
+                        .email(interviewer.getEmail())
+                        .role(interviewer.getRole())
+                        .status(WAITING)
+                        .department(candidate.getDepartment())
+                        .availableTimeSlot(timeslot)
+                        .build());
                 if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
                     CalendarEvent calendarEvent = calendarService.createEvent(
                             interviewer.getEmail(), timeslot.getKey(), timeslot.getValue(), candidate);
-                    calenderStatusMap.put(interviewer.getEmail(), new Tuple3<>(calendarEvent, InterviewerStatus.WAITING, candidate));
+                    calenderStatusMap.put(interviewer.getEmail(), new Tuple3<>(calendarEvent, WAITING, candidate));
                     interviewerAvailabilityResponses.add(InterviewerAvailabilityResponse.builder()
                             .name(interviewer.getName())
                             .email(interviewer.getEmail())
                             .role(interviewer.getRole())
-                            .status(InterviewerStatus.WAITING)
+                            .status(WAITING)
                             .department(candidate.getDepartment())
                             .availableTimeSlot(timeslot)
                             .build());
@@ -60,6 +71,14 @@ public class HireMatchService implements MatchService {
                 }
             }
         }
-        return interviewerAvailabilityResponses;
+        return interviewerAvailabilityResponses.isEmpty() ? allResponses : interviewerAvailabilityResponses;
+    }
+
+    @Override
+    public InterviewerStatus getInterviewerAvailabilityStatus(String email) {
+        if (calenderStatusMap.containsKey(email)) {
+            return calenderStatusMap.get(email)._2();
+        }
+        return WAITING;
     }
 }

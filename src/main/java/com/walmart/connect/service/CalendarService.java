@@ -1,16 +1,5 @@
 package com.walmart.connect.service;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
-
-import com.google.api.services.calendar.model.*;
-import com.walmart.connect.model.CalendarEvent;
-import com.walmart.connect.model.Candidate;
-import javaslang.control.Try;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.stereotype.Service;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
@@ -19,7 +8,16 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.*;
+import com.walmart.connect.model.CalendarEvent;
+import com.walmart.connect.model.Candidate;
+import javaslang.control.Try;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class CalendarService {
