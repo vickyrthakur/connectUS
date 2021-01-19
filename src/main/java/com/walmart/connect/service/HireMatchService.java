@@ -2,7 +2,6 @@ package com.walmart.connect.service;
 
 
 import com.walmart.connect.model.*;
-import javafx.util.Pair;
 import javaslang.Tuple3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -44,7 +43,7 @@ public class HireMatchService implements MatchService {
 
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
-            for (Pair<Date, Date> timeslot: candidate.getAvailableTimeSlot()) {
+            for (TimePair timeslot: candidate.getAvailableTimeSlot()) {
                 if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
                     CalendarEvent calendarEvent = calendarService.createEvent(
                             interviewer.getEmail(), timeslot.getKey(), timeslot.getValue(), candidate);

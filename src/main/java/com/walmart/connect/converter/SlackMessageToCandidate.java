@@ -2,12 +2,10 @@ package com.walmart.connect.converter;
 
 import com.walmart.connect.constants.Constants;
 import com.walmart.connect.model.*;
-import javafx.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -87,7 +85,7 @@ String dataLines[]=inputs.split("\\r?\\n");
 
                 String timePair[]=time.split("to");
                 try {
-                    Pair<Date, Date>  pairSlots = new Pair(new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[0]),
+                    TimePair pairSlots = new TimePair(new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[0]),
                              new SimpleDateFormat("YYYY-MM-DD HH:mm").parse(timePair[1]));
                     if(null!=pairSlots){
                         availbaleTime.add(pairSlots);

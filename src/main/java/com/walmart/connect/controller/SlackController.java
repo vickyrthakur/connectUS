@@ -2,13 +2,14 @@ package com.walmart.connect.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walmart.connect.converter.SlackMessageToCandidate;
-import com.walmart.connect.model.*;
+import com.walmart.connect.model.Candidate;
+import com.walmart.connect.model.Department;
+import com.walmart.connect.model.InterviewerAvailabilityResponse;
+import com.walmart.connect.model.InterviewerStatus;
 import com.walmart.connect.response.Attachment;
 import com.walmart.connect.response.SlackResponse;
 import com.walmart.connect.service.MatchService;
 import com.walmart.connect.service.SlackService;
-import javafx.util.Pair;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -47,7 +46,7 @@ public class SlackController {
     String webhook;
 
 
-    @RequestMapping(value = "/slack/slash",
+    @RequestMapping(value = "/slack/status",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public SlackResponse onReceiveSlashCommand(@RequestParam("team_id") String teamId,
@@ -60,11 +59,11 @@ public class SlackController {
                                                @RequestParam("text") String text,
                                                @RequestParam("response_url") String responseUrl) {
         SlackResponse response = new SlackResponse();
-        response.setText("status for :" + text + "is:");
+        response.setText("Status for :" + text + "is:");
         response.setResponseType("in_channel");
 
         Attachment attachment = new Attachment();
-        attachment.setText("This is the attachment text");
+        attachment.setText("status response");
         attachment.setColor("#0000ff");
 
         response.attachments.add(attachment);
@@ -98,6 +97,43 @@ public class SlackController {
             output.append(resp.toString());
             output.append("\n");
         }
+        Attachment attachment = new Attachment();
+        attachment.setText(output.toString());
+        attachment.setColor("#0000ff");
+
+        response.attachments.add(attachment);
+
+        return response;
+    }
+
+    @RequestMapping(value = "/slack/format",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public SlackResponse onReceiveSlashCommandformat(@RequestParam("team_id") String teamId,
+                                                         @RequestParam("team_domain") String teamDomain,
+                                                         @RequestParam("channel_id") String channelId,
+                                                         @RequestParam("channel_name") String channelName,
+                                                         @RequestParam("user_id") String userId,
+                                                         @RequestParam("user_name") String userName,
+                                                         @RequestParam("command") String command,
+                                                         @RequestParam("text") String text,
+                                                         @RequestParam("response_url") String responseUrl) {
+        SlackResponse response = new SlackResponse();
+        Candidate candidate = slackMessageToCandidate.convert(text);
+        response.setText("The Format for Candidate information is : "+"\n" +
+                "             Name:\n" +
+                "             EmailId:\n" +
+                "             Skills:\n" +
+                "             Role:    IN1/IN2/IN3/IN4/IN5/IN6\n" +
+                "             Time_Slot: YYYY-MM-DD HH:MM to YYYY-MM-DD HH:MM, YYYY-MM-DD HH:MM to YYYY-MM-DD HH:MM\n" +
+                "             Team: GBS_FINTECH\n" +
+                "             Location : BANGALORE/CHENNAI/US\n" +
+                "             Round:  TECH_1/TECH_2/MANAGER/HR\n" +
+                "             Experience: year.month");
+        response.setResponseType("in_channel");
+
+        StringBuilder output = new StringBuilder();
+        output.append("Thank YOU");
         Attachment attachment = new Attachment();
         attachment.setText(output.toString());
         attachment.setColor("#0000ff");
