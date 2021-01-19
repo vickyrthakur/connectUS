@@ -175,13 +175,13 @@ public class SlackController {
                 "             EmailId:  vickythakur6430@gmail.com \n" +
                 "             Skills:  java,spring-boot, SQL, mongo \n" +
                 "             Role:    IN3 \n" +
-                "             Time_Slot:  21-02-2021:14:00 to 20-02-2021:16:00, 22-02-2021:14:00 to 20-02-2021:16:00 \n" +
+                "             Time_Slot:  2021-02-22 14:00 to 2021-02-22 16:00 \n" +
                 "             Team: GBS_FINTECH \n" +
                 "             Location : BANGALORE \n" +
                 "             Round:  TECH_1 \n" +
                 "             Experience:  2.6");
 
-
+      
         SlackResponse response = new SlackResponse();
         response.setText("This is the response text");
         response.setResponseType("in_channel");
