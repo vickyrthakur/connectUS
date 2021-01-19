@@ -119,7 +119,6 @@ public class SlackController {
                                                          @RequestParam("text") String text,
                                                          @RequestParam("response_url") String responseUrl) {
         SlackResponse response = new SlackResponse();
-        Candidate candidate = slackMessageToCandidate.convert(text);
         response.setText("The Format for Candidate information is : "+"\n" +
                 "             Name:\n" +
                 "             EmailId:\n" +
@@ -192,9 +191,18 @@ public class SlackController {
                 .name("vicky thakur")
                 .status(InterviewerStatus.WAITING).toString();
 
-        slackService.postMessage(msg, webhook);
+        try {
+            slackService.postMessage(msg, webhook);
+        }catch (Exception e)
+        {
+
+        }
 
         return matchService.findPanel(candidate);
 
     }
+
+
+
+
 }
