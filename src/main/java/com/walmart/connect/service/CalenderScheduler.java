@@ -6,6 +6,7 @@ import com.walmart.connect.model.Candidate;
 import com.walmart.connect.model.InterviewerStatus;
 import javaslang.Tuple3;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -35,7 +36,9 @@ public class CalenderScheduler {
         for (Map.Entry<String, Tuple3<CalendarEvent, InterviewerStatus, Candidate>> calenderStatusEntry :
                 HireMatchService.calenderStatusMap.entrySet()) {
             if (calenderStatusEntry.getValue()._2() == InterviewerStatus.WAITING) {
-                if ("accepted".equals(calendarService.getEventStatus(calenderStatusEntry.getValue()._1().getEventId()))) {
+                String eventId = calendarService.getEventStatus(calenderStatusEntry.getValue()._1().getEventId());
+                if (!StringUtils.isEmpty(eventId) &&
+                        "accepted".equals(calendarService.getEventStatus(calenderStatusEntry.getValue()._1().getEventId()))) {
                     HireMatchService.calenderStatusMap.replace(calenderStatusEntry.getKey(),
                             new Tuple3<>(calenderStatusEntry.getValue()._1(), InterviewerStatus.ACCEPTED, calenderStatusEntry.getValue()._3));
                     String responseMessage = String.join("","Candidate: ", calenderStatusEntry.getValue()._3.getName(),

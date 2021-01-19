@@ -46,15 +46,15 @@ public class HireMatchService implements MatchService {
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
         List<InterviewerAvailabilityResponse> allResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
+            allResponses.add(InterviewerAvailabilityResponse.builder()
+                    .name(interviewer.getName())
+                    .email(interviewer.getEmail())
+                    .role(interviewer.getRole())
+                    .status(WAITING)
+                    .department(candidate.getDepartment())
+                    .availableTimeSlot(candidate.getAvailableTimeSlot().get(0))
+                    .build());
             for (TimePair timeslot: candidate.getAvailableTimeSlot()) {
-                allResponses.add(InterviewerAvailabilityResponse.builder()
-                        .name(interviewer.getName())
-                        .email(interviewer.getEmail())
-                        .role(interviewer.getRole())
-                        .status(WAITING)
-                        .department(candidate.getDepartment())
-                        .availableTimeSlot(timeslot)
-                        .build());
                 if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
                     CalendarEvent calendarEvent = calendarService.createEvent(
                             interviewer.getEmail(), timeslot.getKey(), timeslot.getValue(), candidate);
