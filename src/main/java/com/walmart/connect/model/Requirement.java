@@ -1,6 +1,5 @@
 package com.walmart.connect.model;
 
-import javafx.util.Pair;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class Requirement {
     private String email;
     private List<String> skills;
     private Role role;
-    private List<Pair<Date, Date>> timeSlots;
+    private List<TimePair> timeSlots;
     private Department department;
     private Location location;
     private Round round;

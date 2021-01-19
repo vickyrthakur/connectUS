@@ -2,7 +2,6 @@ package com.walmart.connect.service;
 
 
 import com.walmart.connect.model.*;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
