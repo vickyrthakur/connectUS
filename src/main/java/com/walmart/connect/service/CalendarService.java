@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+
+import javaslang.control.Try;
 import org.springframework.stereotype.Service;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
@@ -23,20 +25,12 @@ public class CalendarService {
 
     @SuppressWarnings("deprecation")
     public GoogleCredential getCredentials() {
-        try {
-            GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream("/Users/s0s0boq/projects/connectUS/src/main/resources/credentials.json"))
-                    .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
-            System.out.println(credential.toString());
-            credential.refreshToken();
-            System.out.println(credential.getAccessToken());
-            return credential;
-            //getFreeBusyCalendarInfo(credential);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        GoogleCredential googleCredential = Try.of(() -> GoogleCredential.fromStream(
+                new FileInputStream(this.getClass().getClassLoader().getResource("credentials.json").getPath()))
+                .createScoped(Collections.singleton(CalendarScopes.CALENDAR)))
+                .getOrElseThrow((ex) -> new RuntimeException("Cannot get google credentials", ex));
+        Try.of(googleCredential::refreshToken).getOrElseThrow((ex) -> new RuntimeException("Cannot refresh token", ex));
+        return googleCredential;
     }
 
     //TODO: We can add timezone as well

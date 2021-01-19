@@ -29,7 +29,7 @@ public class HireMatchService implements MatchService {
     @Override
     public List<InterviewerAvailabilityResponse> findPanel(Requirement requirement) {
 
-        String getPanelUrl = "http://127.0.0.1:5000/panel/location/{locationId}/role/{roleId}/department/{departmentId}/round/{roundId}";
+        String getPanelUrl = "https://connectuspython.herokuapp.com/panel/location/{locationId}/role/{roleId}/department/{departmentId}/round/{roundId}";
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("locationId", requirement.getLocation().getName());
         urlParams.put("roleId", requirement.getRole().name());
