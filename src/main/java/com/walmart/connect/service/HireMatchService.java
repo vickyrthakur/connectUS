@@ -42,7 +42,7 @@ public class HireMatchService implements MatchService {
 
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
-            for (Pair<Date, Date> timeslot: requirement.getAvailableTimeSlot()) {
+            for (TimePair timeslot: requirement.getAvailableTimeSlot()) {
                 if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
                     interviewerAvailabilityResponses.add(InterviewerAvailabilityResponse.builder()
                             .name(interviewer.getName())

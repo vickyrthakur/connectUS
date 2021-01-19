@@ -2,8 +2,6 @@ package com.walmart.connect.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javafx.util.Pair;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +17,7 @@ public class Candidate {
     private String email;
     private Role role;
     private List<String> skills;
-    private List<Pair<Date, Date>> availableTimeSlot;
+    private List<TimePair> availableTimeSlot;
     private Location location;
     private Double experience;
     private Department department;
