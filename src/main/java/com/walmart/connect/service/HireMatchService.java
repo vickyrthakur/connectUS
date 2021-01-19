@@ -3,6 +3,7 @@ package com.walmart.connect.service;
 
 import com.walmart.connect.model.*;
 import javafx.util.Pair;
+import javaslang.Tuple3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -23,17 +23,19 @@ public class HireMatchService implements MatchService {
     @Autowired
     private CalendarService calendarService;
 
+    static HashMap<String, Tuple3<CalendarEvent, InterviewerStatus, Candidate>> calenderStatusMap = new HashMap<>();
+
     @Override
-    public List<InterviewerAvailabilityResponse> findPanel(Candidate requirement) {
+    public List<InterviewerAvailabilityResponse> findPanel(Candidate candidate) {
 
         String getPanelUrl = "https://connectuspython.herokuapp.com/panel/location/{locationId}/role/{roleId}/department/{departmentId}/round/{roundId}";
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("locationId", requirement.getLocation().getName());
-        urlParams.put("roleId", requirement.getRole().name());
-        urlParams.put("departmentId", requirement.getDepartment().name());
-        urlParams.put("roundId", requirement.getRound().name());
+        urlParams.put("locationId", candidate.getLocation().getName());
+        urlParams.put("roleId", candidate.getRole().name());
+        urlParams.put("departmentId", candidate.getDepartment().name());
+        urlParams.put("roundId", candidate.getRound().name());
         UriComponentsBuilder panelUrlBuilder = UriComponentsBuilder.fromUriString(getPanelUrl)
-                .queryParam("skills", String.join(",", requirement.getSkills()));
+                .queryParam("skills", String.join(",", candidate.getSkills()));
 
         ResponseEntity<List<Interviewer>> matchingInterviewerResponse = restTemplate.exchange(
                 panelUrlBuilder.buildAndExpand(urlParams).toUri(), HttpMethod.GET, null,
@@ -42,14 +44,17 @@ public class HireMatchService implements MatchService {
 
         List<InterviewerAvailabilityResponse> interviewerAvailabilityResponses = new ArrayList<>();
         for (Interviewer interviewer : matchingInterviewers) {
-            for (Pair<Date, Date> timeslot: requirement.getAvailableTimeSlot()) {
+            for (Pair<Date, Date> timeslot: candidate.getAvailableTimeSlot()) {
                 if (calendarService.getFreeBusyCalendarInfo(interviewer.getEmail(), timeslot.getKey(), timeslot.getValue())) {
+                    CalendarEvent calendarEvent = calendarService.createEvent(
+                            interviewer.getEmail(), timeslot.getKey(), timeslot.getValue(), candidate);
+                    calenderStatusMap.put(interviewer.getEmail(), new Tuple3<>(calendarEvent, InterviewerStatus.WAITING, candidate));
                     interviewerAvailabilityResponses.add(InterviewerAvailabilityResponse.builder()
                             .name(interviewer.getName())
                             .email(interviewer.getEmail())
                             .role(interviewer.getRole())
                             .status(InterviewerStatus.WAITING)
-                            .department(requirement.getDepartment())
+                            .department(candidate.getDepartment())
                             .availableTimeSlot(timeslot)
                             .build());
                     break;
@@ -57,10 +62,5 @@ public class HireMatchService implements MatchService {
             }
         }
         return interviewerAvailabilityResponses;
-    }
-
-    //TODO Stub method to be removed
-    private boolean isTimeSlotAvailable(String email, LocalDateTime from, LocalDateTime to) {
-        return true;
     }
 }
